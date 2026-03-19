@@ -37,7 +37,7 @@ mobileStyle.textContent = `
     .nav-links.mobile-open {
       display: flex !important; flex-direction: column;
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(26,26,34,0.97); backdrop-filter: blur(24px);
+      background: rgba(5,5,6,0.97); backdrop-filter: blur(24px);
       align-items: center; justify-content: center; gap: 2rem; z-index: 99;
       animation: fadeIn 0.2s ease;
     }
@@ -51,10 +51,10 @@ document.head.appendChild(mobileStyle);
 // Typing Animation (Hero)
 // ============================================================
 const typingPhrases = [
-  '강력한 제품으로 만듭니다',
-  '자동화 시스템으로 바꿉니다',
-  'SaaS로 운영합니다',
-  '외주 개발로 해결합니다',
+  '완성도 높은 제품으로 만듭니다',
+  'AI로 팀 규모의 개발을 해냅니다',
+  '중간 마진 없이 합리적으로',
+  '기획부터 운영까지 책임집니다',
 ];
 
 const typingEl = document.getElementById('typing-text');
@@ -175,6 +175,13 @@ if (track && prevBtn && nextBtn) {
     if (Math.abs(diff) > 50) moveCarousel(diff > 0 ? 1 : -1);
   });
 }
+
+// ============================================================
+// Review text expand/collapse
+// ============================================================
+document.querySelectorAll('.review-text').forEach(el => {
+  el.addEventListener('click', () => el.classList.toggle('expanded'));
+});
 
 // ============================================================
 // Portfolio Filters
