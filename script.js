@@ -205,26 +205,39 @@ filterBtns.forEach(btn => {
 });
 
 // ============================================================
-// Newsletter form
+// Contact form
 // ============================================================
-const ctaForm = document.querySelector('.cta-form');
-if (ctaForm) {
-  ctaForm.addEventListener('submit', e => {
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', e => {
     e.preventDefault();
-    const input = ctaForm.querySelector('.cta-input');
-    const btn = ctaForm.querySelector('.btn');
-    const email = input.value.trim();
-    if (!email.includes('@')) {
-      input.style.borderColor = '#FCA5A5';
-      return;
-    }
-    btn.textContent = '전송 중...';
+    const btn = contactForm.querySelector('.contact-submit');
+    const formData = new FormData(contactForm);
+    btn.innerHTML = '전송 중...';
     btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = '등록 완료!';
-      input.value = '';
-      setTimeout(() => { btn.textContent = '보내기'; btn.disabled = false; }, 3000);
-    }, 1000);
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString()
+    }).then(res => {
+      if (!res.ok) throw new Error(res.status);
+      contactForm.reset();
+      // 성공 메시지 표시
+      const formWrap = document.querySelector('.contact-form-wrap');
+      formWrap.innerHTML = `
+        <div class="form-success">
+          <div class="form-success-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3 class="form-success-title">견적 문의가 접수되었습니다</h3>
+          <p class="form-success-desc">입력하신 이메일로 접수 확인 메일이 발송됩니다.<br>상세 견적은 평균 2~6시간 이내에 회신드리겠습니다.</p>
+          <p class="form-success-note">메일이 도착하지 않는 경우 스팸함을 확인해주세요.</p>
+        </div>
+      `;
+    }).catch(() => {
+      btn.innerHTML = '전송 실패 — 이메일로 문의해주세요';
+      btn.disabled = false;
+    });
   });
 }
 
