@@ -18,15 +18,8 @@ const navLinks = document.querySelector('.nav-links');
 if (mobileToggle) {
   mobileToggle.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('mobile-open');
+    mobileToggle.classList.toggle('is-open', isOpen);
     mobileToggle.setAttribute('aria-expanded', isOpen.toString());
-    const spans = mobileToggle.querySelectorAll('span');
-    if (isOpen) {
-      spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-      spans[1].style.opacity = '0';
-      spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
-    } else {
-      spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
-    }
   });
 }
 
@@ -37,11 +30,25 @@ mobileStyle.textContent = `
     .nav-links.mobile-open {
       display: flex !important; flex-direction: column;
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(5,5,6,0.97); backdrop-filter: blur(24px);
-      align-items: center; justify-content: center; gap: 2rem; z-index: 99;
+      background: rgba(5,5,6,0.98); backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      align-items: center; justify-content: center; gap: 2.5rem; z-index: 150;
       animation: fadeIn 0.2s ease;
     }
-    .nav-links.mobile-open a { font-size: 1.5rem; font-weight: 800; color: #F0F0F5; }
+    .nav-links.mobile-open a {
+      font-size: 1.4rem; font-weight: 800; color: #F0F0F5;
+      transition: color 0.2s;
+    }
+    .nav-links.mobile-open a:hover { color: #818cf8; }
+    .nav-mobile-toggle.is-open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .nav-mobile-toggle.is-open span:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-mobile-toggle.is-open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   }
 `;
@@ -254,8 +261,8 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       // Close mobile nav if open
       if (navLinks && navLinks.classList.contains('mobile-open')) {
         navLinks.classList.remove('mobile-open');
+        mobileToggle.classList.remove('is-open');
         mobileToggle.setAttribute('aria-expanded', 'false');
-        mobileToggle.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
       }
       const offset = nav.offsetHeight + 24;
       window.scrollTo({ top: target.getBoundingClientRect().top + scrollY - offset, behavior: 'smooth' });

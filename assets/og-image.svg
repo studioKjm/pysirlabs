@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#050506"/>
+  <rect x="0" y="0" width="1200" height="630" fill="url(#grad)" opacity="0.15"/>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5"/>
+      <stop offset="100%" style="stop-color:#818CF8"/>
+    </linearGradient>
+  </defs>
+  <text x="100" y="220" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="72" font-weight="900" fill="#F5F5F7">Pysirlabs</text>
+  <text x="100" y="310" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="36" font-weight="600" fill="#818CF8">AI 기반 1인 풀스택 개발 스튜디오</text>
+  <text x="100" y="400" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="28" font-weight="400" fill="rgba(255,255,255,0.55)">웹·SaaS·MVP 외주 개발 | 에이전시 대비 40~60% 절감</text>
+  <text x="100" y="530" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="22" font-weight="500" fill="rgba(255,255,255,0.35)">pysirlabs.com</text>
+</svg>
