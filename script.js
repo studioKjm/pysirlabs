@@ -297,6 +297,62 @@ document.querySelectorAll('.product-card').forEach(card => {
 });
 
 // ============================================================
+// Design Showcase - duplicate track for infinite scroll
+// ============================================================
+const showcaseTrack = document.getElementById('showcase-track');
+if (showcaseTrack) {
+  const clone = showcaseTrack.innerHTML;
+  showcaseTrack.innerHTML += clone;
+  // JS-driven auto scroll + manual nav
+  const sPrev = document.getElementById('showcase-prev');
+  const sNext = document.getElementById('showcase-next');
+  const halfWidth = showcaseTrack.scrollWidth / 2;
+  let pos = 0;
+  let speed = 0.8; // px per frame
+  let isHovering = false;
+  let manualOffset = 0;
+  let manualAnimating = false;
+
+  function autoScroll() {
+    if (!isHovering && !manualAnimating) {
+      pos += speed;
+      if (pos >= halfWidth) pos -= halfWidth;
+    }
+    if (manualAnimating) {
+      // Ease manual offset toward 0
+      pos += manualOffset * 0.08;
+      manualOffset *= 0.92;
+      if (Math.abs(manualOffset) < 0.5) { manualOffset = 0; manualAnimating = false; }
+      if (pos >= halfWidth) pos -= halfWidth;
+      if (pos < 0) pos += halfWidth;
+    }
+    showcaseTrack.style.transform = `translateX(${-pos}px)`;
+    requestAnimationFrame(autoScroll);
+  }
+  requestAnimationFrame(autoScroll);
+
+  showcaseTrack.addEventListener('mouseenter', () => { isHovering = true; });
+  showcaseTrack.addEventListener('mouseleave', () => { isHovering = false; });
+
+  const step = (280 + 20) * 3;
+  if (sPrev) sPrev.addEventListener('click', () => { manualOffset = -step; manualAnimating = true; });
+  if (sNext) sNext.addEventListener('click', () => { manualOffset = step; manualAnimating = true; });
+
+  // Showcase cards also open modal
+  showcaseTrack.querySelectorAll('.showcase-card[data-modal-img]').forEach(card => {
+    card.addEventListener('click', () => {
+      const modal = document.getElementById('portfolio-modal');
+      const modalImg = document.getElementById('modal-img');
+      if (modal && modalImg) {
+        modalImg.src = card.dataset.modalImg;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+}
+
+// ============================================================
 // Portfolio Modal
 // ============================================================
 const modal = document.getElementById('portfolio-modal');
