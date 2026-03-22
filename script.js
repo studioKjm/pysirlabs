@@ -295,3 +295,26 @@ document.querySelectorAll('.product-card').forEach(card => {
   });
   card.addEventListener('mouseleave', () => { card.style.transform = ''; });
 });
+
+// ============================================================
+// Portfolio Modal
+// ============================================================
+const modal = document.getElementById('portfolio-modal');
+const modalImg = document.getElementById('modal-img');
+if (modal) {
+  document.querySelectorAll('.portfolio-thumb[data-modal-img]').forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      modalImg.src = thumb.dataset.modalImg;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
+  modal.querySelector('.modal-close').addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+}
+function closeModal() {
+  if (!modal) return;
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
